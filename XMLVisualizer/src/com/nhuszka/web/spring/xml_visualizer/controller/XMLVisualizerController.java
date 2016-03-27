@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nhuszka.web.spring.xml_visualizer.graph.GraphCreator;
 import com.nhuszka.web.spring.xml_visualizer.model.FileUploadFormModel;
 
 @Controller
@@ -35,6 +36,8 @@ public class XMLVisualizerController {
 		for (MultipartFile file : files) {
 			System.out.println(file.getOriginalFilename());
 		}
+		
+		new GraphCreator().demo();
 
 		return GRAPH_PAGE;
 	}
