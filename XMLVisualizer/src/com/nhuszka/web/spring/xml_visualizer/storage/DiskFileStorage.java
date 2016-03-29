@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +17,7 @@ public class DiskFileStorage implements FileStorage {
 	
 	private static final String BASE_DIR = "D:\\XMLVisualizer-temp\\";
 	private static DiskFileStorage FILE_STORAGE_INSTANCE;
-	private Set<StoredFileModel> files = new HashSet<>();
+	private Collection<StoredFileModel> files = new HashSet<>();
 
 	public static DiskFileStorage getInstance() {
 		if (FILE_STORAGE_INSTANCE == null) {

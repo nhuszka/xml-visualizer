@@ -1,5 +1,6 @@
 package com.nhuszka.web.spring.xml_visualizer.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import com.nhuszka.web.spring.xml_visualizer.model.FilterFormModel;
 import com.nhuszka.web.spring.xml_visualizer.model.StoredFilesModel;
 import com.nhuszka.web.spring.xml_visualizer.storage.DiskFileStorage;
 import com.nhuszka.web.spring.xml_visualizer.storage.StoredFileModel;
+import com.nhuszka.web.spring.xml_visualizer.xml.XMLParser;
 
 @Controller
 public class XMLVisualizerController {
@@ -55,35 +57,16 @@ public class XMLVisualizerController {
 	@RequestMapping(value = "/showGraph", method = RequestMethod.POST)
 	public String createGraph(HttpServletRequest request, @ModelAttribute("filterForm") FilterFormModel filterFormModel, Model model)
 			throws IllegalStateException, IOException {
-		final List<String> ids = filterFormModel.getIds();
-		final String beanPackageFilter = filterFormModel.getBeanPackageFilter();
+		List<String> ids = filterFormModel.getIds();
+		String beanPackageFilter = filterFormModel.getBeanPackageFilter();
 		
-		DiskFileStorage.getInstance().listStoredFileModels(ids);
+		// TODO call the appropriate method with parameters
+		GraphInput<String> graphInput = new XMLParser().createDemoGraphInput();
+		String graphEncodedBase64 = new GraphCreator<String>().createGraphInBase64String(graphInput);
 		
-		// TODO: read XML files, define beans and their relationship
-		final String graphEncodedBase64 = getDemoGraphEncodedBase64();
-		
-		model.addAttribute("beanPackageFilter", filterFormModel.getBeanPackageFilter());
 		model.addAttribute("graphBase64", graphEncodedBase64);
+		model.addAttribute("beanPackageFilter", filterFormModel.getBeanPackageFilter());
 		
 		return FILTER_PAGE;
-	}
-
-	private String getDemoGraphEncodedBase64() {
-		GraphInput<String> demoGraphInput = createDemoGraphInput();
-		return new GraphCreator<String>().createGraphInBase64String(demoGraphInput);
-	}
-
-	private GraphInput<String> createDemoGraphInput() {
-		GraphInput<String> graphInput = GraphInput.<String>createInput();
-		
-		for (int i = 1; i <= 30; ++i) {
-			graphInput.addVertex("vertex" + i);
-		}
-		for (int i = 1; i < 24; ++i) {
-			graphInput.addEdge("vertex" + i, "vertex" + (i + 4));
-		}
-		
-		return graphInput;
 	}
 }
