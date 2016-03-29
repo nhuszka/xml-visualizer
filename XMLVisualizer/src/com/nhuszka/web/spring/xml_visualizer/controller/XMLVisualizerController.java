@@ -8,17 +8,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.nhuszka.web.spring.xml_visualizer.graph.GraphCreator;
 import com.nhuszka.web.spring.xml_visualizer.model.FileUploadFormModel;
+import com.nhuszka.web.spring.xml_visualizer.model.FilterFormModel;
+import com.nhuszka.web.spring.xml_visualizer.model.StoredFilesModel;
+import com.nhuszka.web.spring.xml_visualizer.storage.FileStorage;
 
 @Controller
 public class XMLVisualizerController {
 
 	private static final String UPLOAD_PAGE = "uploadfile";
-	private static final String GRAPH_PAGE = "graph";
+	private static final String FILTER_PAGE = "filter";
 
 	@RequestMapping("/showForm")
 	public ModelAndView showUploadForm() {
@@ -26,19 +27,21 @@ public class XMLVisualizerController {
 	}
 	
 	@RequestMapping(value = "/saveFiles", method = RequestMethod.POST)
-	public String saveFiles(@ModelAttribute("uploadForm") FileUploadFormModel uploadForm, Model map)
+	public ModelAndView saveFiles(@ModelAttribute("uploadForm") FileUploadFormModel uploadForm, Model map)
 			throws IllegalStateException, IOException {
+		StoredFilesModel storedFilesModel = FileStorage.getInstance().storeFiles(uploadForm.getFiles());
+		return new ModelAndView(FILTER_PAGE, "storedFilesModel", storedFilesModel);
+	}
+	
+	@RequestMapping(value = "/createGraph", method = RequestMethod.POST)
+	public ModelAndView createGraph(@ModelAttribute("filterForm") FilterFormModel filterFormModel, Model map)
+			throws IllegalStateException, IOException {
+		final List<String> ids = filterFormModel.getCheckboxes();
+		final String beanPackageFilter = filterFormModel.getBeanPackageFilter();
 		
-		final List<MultipartFile> files = 
-				FileFilter.filterFilesByIndexes(uploadForm.getFiles(), uploadForm.getCheckboxes());
-		final String beanPackageFilter = uploadForm.getBeanPackageFilter();
-		
-		for (MultipartFile file : files) {
-			System.out.println(file.getOriginalFilename());
-		}
-		
-		new GraphCreator().demo();
+//		new GraphCreator().demo();
 
-		return GRAPH_PAGE;
+		return new ModelAndView(FILTER_PAGE, "filterForm", filterFormModel);
+
 	}
 }

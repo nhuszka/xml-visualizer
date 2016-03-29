@@ -9,7 +9,7 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			$('#addFile').click(function() {
+			$('#moreFile').click(function() {
 				var fileIndex = $('#fileTable tbody').children().length - 1;
 				$('#fileTable').append(getFileUploadRow(fileIndex));
 			});
@@ -39,23 +39,15 @@
 			<table id="fileTable">
 				<tbody>
 					<tr>
-						<td><input name="checkboxes" type="checkbox" value="0" /></td>
-						<td><input name="files" type="file" /></td>
-					</tr>
-					<tr>
-						<td><input name="checkboxes" type="checkbox" value="1" /></td>
-						<td><input name="files" type="file" /></td>
+						<td>
+							<input name="files" type="file" />
+						</td>
 					</tr>
 				</tbody>
 			</table>
 			<br/>
-			<br/>
-			<label>Filter beans by package:</label>
-			<input name="beanPackageFilter" type="text"/>
-			<br/>
-			<br/>
 			<input type="submit" value="Upload" />
-			<input id="addFile" type="button" value="Add File" />
+			<input id="moreFile" type="button" value="More file" />
 		</form:form>
 		<br/>
 	</div>
