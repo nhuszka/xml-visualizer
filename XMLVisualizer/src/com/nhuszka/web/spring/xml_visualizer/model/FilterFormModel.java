@@ -5,15 +5,15 @@ import java.util.List;
 
 public class FilterFormModel {
 		
-	private List<String> checkboxes = new ArrayList<>();
+	private List<String> ids = new ArrayList<>();
 	private String beanPackageFilter = "";
 
-	public List<String> getCheckboxes() {
-		return checkboxes;
+	public List<String> getIds() {
+		return ids;
 	}
 
-	public void setCheckboxes(List<String> checkboxes) {
-		this.checkboxes = checkboxes;
+	public void setIds(List<String> ids) {
+		this.ids = ids;
 	}
 
 	public String getBeanPackageFilter() {

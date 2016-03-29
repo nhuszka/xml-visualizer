@@ -45,7 +45,7 @@ public class XMLVisualizerController {
 	@RequestMapping(value = "/showGraph", method = RequestMethod.POST)
 	public String createGraph(HttpServletRequest request, @ModelAttribute("filterForm") FilterFormModel filterFormModel, Model model)
 			throws IllegalStateException, IOException {
-		final List<String> ids = filterFormModel.getCheckboxes();
+		final List<String> ids = filterFormModel.getIds();
 		final String beanPackageFilter = filterFormModel.getBeanPackageFilter();
 		
 		// TODO: read XML files, define beans and their relationship

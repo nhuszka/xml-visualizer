@@ -17,15 +17,26 @@ import com.nhuszka.web.spring.xml_visualizer.model.StoredFilesModel;
 
 public class FileStorage {
 	
-	private static final String BASE_DIR = "D:\\";
+	private static final String BASE_DIR = "D:\\XMLVisualizer-temp\\";
 	private static FileStorage FILE_STORAGE_INSTANCE;
 	private Set<StoredFileModel> files = new HashSet<>();
 
 	public static FileStorage getInstance() {
 		if (FILE_STORAGE_INSTANCE == null) {
 			FILE_STORAGE_INSTANCE = new FileStorage();
+			createBaseDirOnDemand();
 		}
 		return FILE_STORAGE_INSTANCE;
+	}
+
+	private static void createBaseDirOnDemand() {
+		if (Files.notExists(Paths.get(BASE_DIR))) {
+			try {
+				Files.createDirectory(Paths.get(BASE_DIR));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public StoredFileModel getFileModel(String id) throws FileNotFoundException {

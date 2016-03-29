@@ -18,7 +18,7 @@
 				<tbody>
 				<c:forEach items="${storedFilesModel.storedFiles}" var="file">
 					<tr>
-						<td><input name="checkboxes" type="checkbox" value="${file.id}" checked="checked" /></td>
+						<td><input name="ids" type="checkbox" value="${file.id}" checked="checked" /></td>
 						<td>${file.fileName}</td>
 					</tr>
 	            </c:forEach>
