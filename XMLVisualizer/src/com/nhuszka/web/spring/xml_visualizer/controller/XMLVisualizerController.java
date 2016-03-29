@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.nhuszka.web.spring.xml_visualizer.graph.GraphCreator;
+import com.nhuszka.web.spring.xml_visualizer.graph.GraphInput;
 import com.nhuszka.web.spring.xml_visualizer.model.FileUploadFormModel;
 import com.nhuszka.web.spring.xml_visualizer.model.FilterFormModel;
 import com.nhuszka.web.spring.xml_visualizer.model.StoredFilesModel;
@@ -57,6 +58,8 @@ public class XMLVisualizerController {
 		final List<String> ids = filterFormModel.getIds();
 		final String beanPackageFilter = filterFormModel.getBeanPackageFilter();
 		
+		DiskFileStorage.getInstance().listStoredFileModels(ids);
+		
 		// TODO: read XML files, define beans and their relationship
 		final String graphEncodedBase64 = getDemoGraphEncodedBase64();
 		
@@ -67,16 +70,20 @@ public class XMLVisualizerController {
 	}
 
 	private String getDemoGraphEncodedBase64() {
-		List<String> beans = new ArrayList<>();
-		for (int i = 1; i <= 30; ++i) {
-			beans.add("bean" + i);
-		}
+		GraphInput<String> demoGraphInput = createDemoGraphInput();
+		return new GraphCreator<String>().createGraphInBase64String(demoGraphInput);
+	}
 
-		Map<String, String> edges = new HashMap<>();
+	private GraphInput<String> createDemoGraphInput() {
+		GraphInput<String> graphInput = GraphInput.<String>createInput();
+		
+		for (int i = 1; i <= 30; ++i) {
+			graphInput.addVertex("vertex" + i);
+		}
 		for (int i = 1; i < 24; ++i) {
-			edges.put("bean" + i, "bean" + (i + 4));
+			graphInput.addEdge("vertex" + i, "vertex" + (i + 4));
 		}
 		
-		return new GraphCreator().createGraphInBase64String(beans, edges);
+		return graphInput;
 	}
 }
