@@ -19,7 +19,8 @@ import com.nhuszka.web.spring.xml_visualizer.graph.GraphCreator;
 import com.nhuszka.web.spring.xml_visualizer.model.FileUploadFormModel;
 import com.nhuszka.web.spring.xml_visualizer.model.FilterFormModel;
 import com.nhuszka.web.spring.xml_visualizer.model.StoredFilesModel;
-import com.nhuszka.web.spring.xml_visualizer.storage.FileStorage;
+import com.nhuszka.web.spring.xml_visualizer.storage.DiskFileStorage;
+import com.nhuszka.web.spring.xml_visualizer.storage.StoredFileModel;
 
 @Controller
 public class XMLVisualizerController {
@@ -35,11 +36,19 @@ public class XMLVisualizerController {
 	@RequestMapping(value = "/uploadFiles", method = RequestMethod.POST)
 	public String saveFiles(HttpServletRequest request, @ModelAttribute("uploadForm") FileUploadFormModel uploadForm, Model model)
 			throws IllegalStateException, IOException {
-		StoredFilesModel storedFilesModel = FileStorage.getInstance().storeFiles(uploadForm.getFiles());
+		List<StoredFileModel> storedFileModels = DiskFileStorage.getInstance().storeFiles(uploadForm.getFiles());
 		
-		request.getSession().setAttribute("storedFilesModel", storedFilesModel);
+		request.getSession().setAttribute("storedFilesModel", createStoredFilesModel(storedFileModels));
 		
 		return FILTER_PAGE;
+	}
+
+	private StoredFilesModel createStoredFilesModel(List<StoredFileModel> fileModels) {
+		StoredFilesModel storedFilesModel = new StoredFilesModel();
+		for (StoredFileModel model : fileModels) {
+			storedFilesModel.addStoredFile(model);
+		}
+		return storedFilesModel;
 	}
 	
 	@RequestMapping(value = "/showGraph", method = RequestMethod.POST)
@@ -49,9 +58,10 @@ public class XMLVisualizerController {
 		final String beanPackageFilter = filterFormModel.getBeanPackageFilter();
 		
 		// TODO: read XML files, define beans and their relationship
+		final String graphEncodedBase64 = getDemoGraphEncodedBase64();
 		
 		model.addAttribute("beanPackageFilter", filterFormModel.getBeanPackageFilter());
-		model.addAttribute("graphBase64", getDemoGraphEncodedBase64());
+		model.addAttribute("graphBase64", graphEncodedBase64);
 		
 		return FILTER_PAGE;
 	}

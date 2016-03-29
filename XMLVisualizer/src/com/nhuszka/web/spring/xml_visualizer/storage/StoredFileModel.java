@@ -1,4 +1,4 @@
-package com.nhuszka.web.spring.xml_visualizer.model;
+package com.nhuszka.web.spring.xml_visualizer.storage;
 
 public class StoredFileModel {
 	
