@@ -4,15 +4,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
+
+import org.apache.commons.codec.binary.Base64;
 
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
@@ -25,41 +25,16 @@ import edu.uci.ics.jung.visualization.renderers.Renderer;
 
 public class GraphCreator {
 	
-	public void demo() {
-		List<String> beans = new ArrayList<>();
-		for (int i = 1; i <= 30; ++i) {
-			beans.add("bean" + i);
-		}
+	public String createGraphInBase64String(List<String> beans, Map<String, String> edges) {
+		DirectedSparseMultigraph graph = createGraphFrom(beans, edges);
+		BufferedImage image = convertToImage(graph);
 
-		Map<String, String> edges = new HashMap<>();
-		for (int i = 1; i < 24; ++i) {
-			edges.put("bean" + i, "bean" + (i + 4));
-		}
-
-		final int size = 1; // does not matter now
-		new GraphCreator().createGraph(beans, edges, size, "D:\\graph.png");
+		byte[] imageInBytes = getImageInBytes(image);
+		byte[] encodedByteArray = Base64.encodeBase64(imageInBytes);
+		return new String(encodedByteArray);
 	}
 
-	public void createGraph(List<String> beans, Map<String, String> edges, int size, String filePath) {
-		DirectedSparseMultigraph graph = createGraph(beans, edges);
-		BufferedImage image = convertToImage(graph, size);
-		saveFile(filePath, image);
-	}
-
-	private BufferedImage convertToImage(DirectedSparseMultigraph graph, int size) {
-		VisualizationImageServer vis = new VisualizationImageServer(new KKLayout(graph), new Dimension(600, 600));
-		GradientVertexRenderer vertexRenderer = new GradientVertexRenderer(
-				Color.white, Color.red, Color.white, Color.blue, vis.getPickedVertexState(), false);
-		vis.getRenderer().setVertexRenderer(vertexRenderer);
-
-		vis.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
-		vis.getRenderer().getVertexLabelRenderer().setPositioner(new BasicVertexLabelRenderer.InsidePositioner());
-		vis.getRenderer().getVertexLabelRenderer().setPosition(Renderer.VertexLabel.Position.AUTO);
-
-		return (BufferedImage) vis.getImage(new Point2D.Double(300D, 300D), new Dimension(600, 600));
-	}
-
-	private DirectedSparseMultigraph createGraph(List<String> beans, Map<String, String> edges) {
+	private DirectedSparseMultigraph createGraphFrom(List<String> beans, Map<String, String> edges) {
 		DirectedSparseMultigraph g = new DirectedSparseMultigraph();
 		for (String bean : beans) {
 			g.addVertex(bean);
@@ -73,12 +48,32 @@ public class GraphCreator {
 		}
 		return g;
 	}
+	
+	private BufferedImage convertToImage(DirectedSparseMultigraph graph) {
+		VisualizationImageServer imageServer = new VisualizationImageServer(new KKLayout(graph), new Dimension(600, 600));
+		setUpImageServer(imageServer);
+		return (BufferedImage) imageServer.getImage(new Point2D.Double(300D, 300D), new Dimension(600, 600));
+	}
 
-	private void saveFile(String filePath, BufferedImage image) {
-		try {
-			ImageIO.write(image, "png", new File(filePath));
+	private void setUpImageServer(VisualizationImageServer imageServer) {
+		GradientVertexRenderer vertexRenderer = new GradientVertexRenderer(Color.white, Color.red, Color.white,
+				Color.blue, imageServer.getPickedVertexState(), false);
+		imageServer.getRenderer().setVertexRenderer(vertexRenderer);
+
+		imageServer.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+		imageServer.getRenderer().getVertexLabelRenderer().setPositioner(new BasicVertexLabelRenderer.InsidePositioner());
+		imageServer.getRenderer().getVertexLabelRenderer().setPosition(Renderer.VertexLabel.Position.AUTO);
+	}
+	
+	private byte[] getImageInBytes(BufferedImage image) {
+		byte[] imageInByte = {};
+		try (ByteArrayOutputStream stream = new ByteArrayOutputStream()){
+			ImageIO.write(image, "png", stream);
+			imageInByte = stream.toByteArray();
+			stream.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return imageInByte;
 	}
 }

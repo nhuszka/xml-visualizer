@@ -1,10 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>XML visualizer</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script>
@@ -16,13 +18,7 @@
 		});
 	
 		function getFileUploadRow(fileIndex) {
-			return '<tr><td>' + getCheckboxHTML(fileIndex) + '</td><td>'
-					+ getFileInputHTML(fileIndex) + '</td></tr>';
-		}
-	
-		function getCheckboxHTML(fileIndex) {
-			return '<input name="checkboxes" type="checkbox" value="' + fileIndex
-					+ '" />';
+			return '<tr><td>' + getFileInputHTML(fileIndex) + '</td></tr>';
 		}
 	
 		function getFileInputHTML(fileIndex) {
@@ -33,9 +29,7 @@
 <body>
 	<div align="center">
 		<h2>XML file upload</h2>
-		<form:form method="post" action="saveFiles"
-			modelAttribute="uploadForm" enctype="multipart/form-data">
-
+		<form:form method="post" action="uploadFiles" modelAttribute="uploadForm" enctype="multipart/form-data">
 			<table id="fileTable">
 				<tbody>
 					<tr>
@@ -45,11 +39,12 @@
 					</tr>
 				</tbody>
 			</table>
+			
 			<br/>
+			
 			<input type="submit" value="Upload" />
 			<input id="moreFile" type="button" value="More file" />
-		</form:form>
-		<br/>
+		</form:form>		
 	</div>
 </body>
 </html>
