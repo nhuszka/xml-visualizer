@@ -28,7 +28,7 @@
 </head>
 <body>
 	<div align="center">
-		<h2>XML file upload</h2>
+		<h2>File upload</h2>
 		<form:form method="post" action="uploadFiles" modelAttribute="uploadForm" enctype="multipart/form-data">
 			<table id="fileTable">
 				<tbody>
@@ -39,11 +39,12 @@
 					</tr>
 				</tbody>
 			</table>
-			
 			<br/>
-			
 			<input type="submit" value="Upload" />
 			<input id="moreFile" type="button" value="More file" />
+			<br/>
+			<br/>
+			Only valid Spring bean XML files will be uploaded (<a href="http://www.springframework.org/schema/beans/spring-beans.xsd">Spring beans XSD</a>)
 		</form:form>		
 	</div>
 </body>
