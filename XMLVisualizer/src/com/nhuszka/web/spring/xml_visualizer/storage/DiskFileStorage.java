@@ -13,8 +13,6 @@ import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.nhuszka.web.spring.xml_visualizer.xml.FileValidator;
-
 public class DiskFileStorage implements FileStorage {
 	
 	private static final String BASE_DIR = "D:\\XMLVisualizer-temp\\";

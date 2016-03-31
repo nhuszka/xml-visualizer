@@ -21,12 +21,16 @@ public class GraphInput<E> {
 		vertexes.add(vertex);
 	}
 	
-	public void addEdge(E fromVertex, E toVertex) {
-		edges.add(Pair.of(fromVertex, toVertex));
+	public void addVertexes(Collection<E> vertexesToAdd) {
+		vertexes.addAll(vertexesToAdd);
 	}
-
+	
 	public Collection<E> getVertexes() {
 		return vertexes;
+	}
+	
+	public void addEdge(E fromVertex, E toVertex) {
+		edges.add(Pair.of(fromVertex, toVertex));
 	}
 	
 	public Collection<Pair<E, E>> getEdges() {
