@@ -9,13 +9,13 @@ import com.nhuszka.web.spring.xml_visualizer.storage.StoredFileModel;
 
 public class XMLParser {
 
-	public GraphInput<String> createDemoGraphInput() {
+	private GraphInput<String> createDemoGraphInput() {
 		GraphInput<String> graphInput = GraphInput.<String>createInput();
 		
-		for (int i = 1; i <= 30; ++i) {
+		for (int i = 1; i <= 15; ++i) {
 			graphInput.addVertex("vertex" + i);
 		}
-		for (int i = 1; i < 24; ++i) {
+		for (int i = 1; i <= 11; ++i) {
 			graphInput.addEdge("vertex" + i, "vertex" + (i + 4));
 		}
 		
@@ -27,7 +27,7 @@ public class XMLParser {
 		
 		// TODO parse (XML) files, add info to graphInput
 		
-		GraphInput<String> graphInput = GraphInput.<String>createInput();
+		GraphInput<String> graphInput = createDemoGraphInput();
 		return graphInput;
 	}
 

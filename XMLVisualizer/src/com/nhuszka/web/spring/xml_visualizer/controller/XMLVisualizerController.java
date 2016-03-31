@@ -1,11 +1,7 @@
 package com.nhuszka.web.spring.xml_visualizer.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -60,8 +56,7 @@ public class XMLVisualizerController {
 		List<String> ids = filterFormModel.getIds();
 		String beanPackageFilter = filterFormModel.getBeanPackageFilter();
 		
-		// TODO call the appropriate method with parameters
-		GraphInput<String> graphInput = new XMLParser().createDemoGraphInput();
+		GraphInput<String> graphInput = new XMLParser().parseXmlsToGraphInput(ids, beanPackageFilter);
 		String graphEncodedBase64 = new GraphCreator<String>().createGraphInBase64String(graphInput);
 		
 		model.addAttribute("graphBase64", graphEncodedBase64);

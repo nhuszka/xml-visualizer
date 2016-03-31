@@ -13,6 +13,8 @@ import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nhuszka.web.spring.xml_visualizer.xml.FileValidator;
+
 public class DiskFileStorage implements FileStorage {
 	
 	private static final String BASE_DIR = "D:\\XMLVisualizer-temp\\";
@@ -22,11 +24,27 @@ public class DiskFileStorage implements FileStorage {
 	public static DiskFileStorage getInstance() {
 		if (FILE_STORAGE_INSTANCE == null) {
 			FILE_STORAGE_INSTANCE = new DiskFileStorage();
-			createBaseDirOnDemand();
 		}
 		return FILE_STORAGE_INSTANCE;
 	}
 
+	@Override
+	public List<StoredFileModel> storeFiles(List<MultipartFile> multipartFiles) {
+		List<StoredFileModel> models = new ArrayList<>();
+		createBaseDirOnDemand();
+		for (MultipartFile multipartFile : multipartFiles) {
+			try {
+				if (isValidSpringXMLBeanFile(multipartFile)) {
+					models.add(storeFile(multipartFile));
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return models;
+	}
+	
 	private static void createBaseDirOnDemand() {
 		if (Files.notExists(Paths.get(BASE_DIR))) {
 			try {
@@ -37,21 +55,11 @@ public class DiskFileStorage implements FileStorage {
 		}
 	}
 	
-	@Override
-	public List<StoredFileModel> storeFiles(List<MultipartFile> multipartFiles) {
-		List<StoredFileModel> models = new ArrayList<>();
-		
-		for (MultipartFile multipartFile : multipartFiles) {
-			try {
-				if (!multipartFile.getOriginalFilename().isEmpty()) {
-					models.add(storeFile(multipartFile));
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	private boolean isValidSpringXMLBeanFile(MultipartFile multipartFile) throws IOException {
+		if (multipartFile.getOriginalFilename().isEmpty()) {
+			return false;
 		}
-		
-		return models;
+		return FileValidator.isValidSpringBeanFile(multipartFile.getBytes());
 	}
 
 	private StoredFileModel storeFile(MultipartFile multipartFile) throws IOException {
