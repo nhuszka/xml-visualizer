@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="car" class="nhuszka.Car">
+		<property name="message" value="This is just a message"/>
+		<property name="myUndercarriage" ref="undercarriage"/>
+		<property name="myChassis" ref="chassis"/>
+	</bean>
+   
+        <bean id="wheel" class="nhuszka.undercarriage.Wheel"/>
+		
+	<bean id="undercarriage" class="nhuszka.undercarriage.UnderCarriage">
+		<property name="wheel1" ref="wheel"/>
+		<property name="wheel2" ref="wheel"/>
+		<property name="wheel3" ref="wheel"/>
+		<property name="wheel4" ref="wheel"/>
+	</bean>
+	
+	<bean id="chassis" class="nhuszka.chassis.Chassis">
+		<property name="seat1" ref="seat"/>
+		<property name="seat2" ref="seat"/>
+		<property name="seat3" ref="seat"/>
+		<property name="myWindscreen" ref="windscreen"/>
+		<property name="seat4" ref="seat"/>
+		<property name="seat5" ref="seat"/>
+		<property name="myLuggageRack" ref="luggageRack"/>
+	</bean>
+	
+	<bean id="seat" class="nhuszka.chassis.Seat"/>
+	
+</beans>
