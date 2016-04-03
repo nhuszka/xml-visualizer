@@ -1,19 +1,19 @@
 package com.nhuszka.web.spring.xml_visualizer.model;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUploadFormModel {
 
-	private List<MultipartFile> files = new ArrayList<>();
+	private Collection<MultipartFile> files = new ArrayList<>();
 	
-	public List<MultipartFile> getFiles() {
+	public Collection<MultipartFile> getFiles() {
 		return files;
 	}
 
-	public void setFiles(List<MultipartFile> files) {
+	public void setFiles(Collection<MultipartFile> files) {
 		this.files = files;
 	}
 }

@@ -1,4 +1,4 @@
-package com.nhuszka.web.spring.xml_visualizer.xml;
+package com.nhuszka.web.spring.xml_visualizer.parser;
 
 import java.util.Collection;
 import java.util.HashSet;

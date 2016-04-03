@@ -1,15 +1,15 @@
 package com.nhuszka.web.spring.xml_visualizer.model;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import com.nhuszka.web.spring.xml_visualizer.storage.StoredFileModel;
 
 public class StoredFilesModel {
 
-	private List<StoredFileModel> fileModels = new ArrayList<>();
+	private Collection<StoredFileModel> fileModels = new ArrayList<>();
 
-	public List<StoredFileModel> getStoredFiles() {
+	public Collection<StoredFileModel> getStoredFiles() {
 		return fileModels;
 	}
 

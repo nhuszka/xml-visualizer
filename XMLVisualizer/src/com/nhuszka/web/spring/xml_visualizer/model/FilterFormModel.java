@@ -1,18 +1,18 @@
 package com.nhuszka.web.spring.xml_visualizer.model;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 public class FilterFormModel {
 		
-	private List<String> ids = new ArrayList<>();
+	private Collection<String> ids = new ArrayList<>();
 	private String beanPackageFilter = "";
 
-	public List<String> getIds() {
+	public Collection<String> getIds() {
 		return ids;
 	}
 
-	public void setIds(List<String> ids) {
+	public void setIds(Collection<String> ids) {
 		this.ids = ids;
 	}
 

@@ -40,7 +40,8 @@ public class FileValidator {
 		return true;
 	}
 
-	private static Schema getSchema(String schemaNamespaceURI, String xsdFileURI) throws MalformedURLException, SAXException {
+	private static Schema getSchema(String schemaNamespaceURI, String xsdFileURI) 
+			throws MalformedURLException, SAXException {
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(schemaNamespaceURI);
 		return schemaFactory.newSchema(new URL(xsdFileURI));
 	}

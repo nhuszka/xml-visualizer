@@ -1,7 +1,7 @@
 package com.nhuszka.web.spring.xml_visualizer.controller;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,9 +17,9 @@ import com.nhuszka.web.spring.xml_visualizer.graph.GraphInput;
 import com.nhuszka.web.spring.xml_visualizer.model.FileUploadFormModel;
 import com.nhuszka.web.spring.xml_visualizer.model.FilterFormModel;
 import com.nhuszka.web.spring.xml_visualizer.model.StoredFilesModel;
+import com.nhuszka.web.spring.xml_visualizer.parser.XMLParser;
 import com.nhuszka.web.spring.xml_visualizer.storage.DiskFileStorage;
 import com.nhuszka.web.spring.xml_visualizer.storage.StoredFileModel;
-import com.nhuszka.web.spring.xml_visualizer.xml.XMLParser;
 
 @Controller
 public class XMLVisualizerController {
@@ -33,16 +33,16 @@ public class XMLVisualizerController {
 	}
 	
 	@RequestMapping(value = "/uploadFiles", method = RequestMethod.POST)
-	public String saveFiles(HttpServletRequest request, @ModelAttribute("uploadForm") FileUploadFormModel uploadForm, Model model)
-			throws IllegalStateException, IOException {
-		List<StoredFileModel> storedFileModels = DiskFileStorage.getInstance().storeFiles(uploadForm.getFiles());
+	public String saveFiles(HttpServletRequest request, @ModelAttribute("uploadForm") FileUploadFormModel uploadForm,
+			Model model) throws IllegalStateException, IOException {
+		Collection<StoredFileModel> storedFileModels = DiskFileStorage.getInstance().storeFiles(uploadForm.getFiles());
 		
 		request.getSession().setAttribute("storedFilesModel", createStoredFilesModel(storedFileModels));
 		
 		return FILTER_PAGE;
 	}
 
-	private StoredFilesModel createStoredFilesModel(List<StoredFileModel> fileModels) {
+	private StoredFilesModel createStoredFilesModel(Collection<StoredFileModel> fileModels) {
 		StoredFilesModel storedFilesModel = new StoredFilesModel();
 		for (StoredFileModel model : fileModels) {
 			storedFilesModel.addStoredFile(model);
@@ -51,9 +51,9 @@ public class XMLVisualizerController {
 	}
 	
 	@RequestMapping(value = "/showGraph", method = RequestMethod.POST)
-	public String createGraph(HttpServletRequest request, @ModelAttribute("filterForm") FilterFormModel filterFormModel, Model model)
-			throws IllegalStateException, IOException {
-		List<String> ids = filterFormModel.getIds();
+	public String createGraph(HttpServletRequest request, @ModelAttribute("filterForm") FilterFormModel filterFormModel,
+			Model model) throws IllegalStateException, IOException {
+		Collection<String> ids = filterFormModel.getIds();
 		String beanPackageFilter = filterFormModel.getBeanPackageFilter();
 		
 		GraphInput<String> graphInput = new XMLParser().parseXmlsToGraphInput(ids, beanPackageFilter);

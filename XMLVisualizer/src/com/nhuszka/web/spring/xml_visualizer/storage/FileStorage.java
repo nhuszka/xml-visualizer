@@ -1,17 +1,17 @@
 package com.nhuszka.web.spring.xml_visualizer.storage;
 
 import java.io.File;
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FileStorage {
 	
-	List<StoredFileModel> storeFiles(List<MultipartFile> multipartFiles);
+	Collection<StoredFileModel> storeFiles(Collection<MultipartFile> multipartFiles);
 	
-	List<StoredFileModel> listStoredFileModels(List<String> ids);
+	Collection<StoredFileModel> listStoredFileModels(Collection<String> ids);
 	
 	File readStoredFile(StoredFileModel fileModel);
 	
-	List<File> readStoredFiles(List<StoredFileModel> fileModels);
+	Collection<File> readStoredFiles(Collection<StoredFileModel> fileModels);
 }

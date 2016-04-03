@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,8 +26,8 @@ public class DiskFileStorage implements FileStorage {
 	}
 
 	@Override
-	public List<StoredFileModel> storeFiles(List<MultipartFile> multipartFiles) {
-		List<StoredFileModel> models = new ArrayList<>();
+	public Collection<StoredFileModel> storeFiles(Collection<MultipartFile> multipartFiles) {
+		Collection<StoredFileModel> models = new ArrayList<>();
 		createBaseDirOnDemand();
 		for (MultipartFile multipartFile : multipartFiles) {
 			try {
@@ -79,8 +78,8 @@ public class DiskFileStorage implements FileStorage {
 	}
 	
 	@Override
-	public List<StoredFileModel> listStoredFileModels(List<String> ids) {
-		List<StoredFileModel> fileModels = new ArrayList<>();
+	public Collection<StoredFileModel> listStoredFileModels(Collection<String> ids) {
+		Collection<StoredFileModel> fileModels = new ArrayList<>();
 		
 		for (String id : ids) {
 			try {
@@ -109,8 +108,8 @@ public class DiskFileStorage implements FileStorage {
 	}
 
 	@Override
-	public List<File> readStoredFiles(List<StoredFileModel> fileModels) {
-		List<File> storedFiles = new ArrayList<>();
+	public Collection<File> readStoredFiles(Collection<StoredFileModel> fileModels) {
+		Collection<File> storedFiles = new ArrayList<>();
 		
 		for (StoredFileModel fileModel : fileModels) {
 			storedFiles.add(readStoredFile(fileModel));
