@@ -36,9 +36,8 @@ public class XMLVisualizerController {
 	public String saveFiles(HttpServletRequest request, @ModelAttribute("uploadForm") FileUploadFormModel uploadForm,
 			Model model) throws IllegalStateException, IOException {
 		Collection<StoredFileModel> storedFileModels = DiskFileStorage.getInstance().storeFiles(uploadForm.getFiles());
-		
+		// session variable set
 		request.getSession().setAttribute("storedFilesModel", createStoredFilesModel(storedFileModels));
-		
 		return FILTER_PAGE;
 	}
 
@@ -55,10 +54,12 @@ public class XMLVisualizerController {
 			Model model) throws IllegalStateException, IOException {
 		Collection<String> ids = filterFormModel.getIds();
 		String beanPackageFilter = filterFormModel.getBeanPackageFilter();
+		// session variable get
+		System.out.println("STORED " + request.getSession().getAttribute("storedFilesModel"));
 		
 		GraphInput<String> graphInput = new XMLParser().parseXmlsToGraphInput(ids, beanPackageFilter);
 		String graphEncodedBase64 = new GraphCreator<String>().createGraphInBase64String(graphInput);
-		
+
 		model.addAttribute("graphBase64", graphEncodedBase64);
 		model.addAttribute("beanPackageFilter", filterFormModel.getBeanPackageFilter());
 		

@@ -10,15 +10,9 @@
 </head>
 <body>
 	<div align="center">
-		<h2>Jegyertekesito rendszer, katt a startra az induláshoz</h2>
+		<h2>XML visualizer</h2>
 
-		<form:form method="get" action="showFelhasznalok">
-<!-- 	a controller-ben a /showFelhasznalok metodus feltolti a  -->
-<!-- 	Model objektum "felhasznalok" parameteret a felhasznalo beanek listajaval  -->
-
-<!-- 	es visszater a "felhasznalok_lista" string-gel, igy betoltodik
-		a felhasznalok_lista.jsp a felhasznalok parameterrel,
-		amit meg tud jeleniteni mar -->
+		<form:form method="get" action="showUploadForm">
 			<input type="submit" value="Start"/>
 		</form:form>
 	</div>
