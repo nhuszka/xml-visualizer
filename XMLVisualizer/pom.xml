@@ -24,6 +24,8 @@
 		<jung-graph-impl.version>2.1</jung-graph-impl.version>
 		<jung-visualization.version>2.0</jung-visualization.version>
 		<jung-algorithms.version>2.0.1</jung-algorithms.version>
+		
+		<aspectj.version>1.7.4</aspectj.version>
 	</properties>
 
 	<build>
@@ -110,6 +112,16 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 		
 
 		<dependency>
@@ -126,6 +138,18 @@
 			<groupId>net.sf.jung</groupId>
 			<artifactId>jung-algorithms</artifactId>
 			<version>${jung-algorithms.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjtools</artifactId>
+			<version>${aspectj.version}</version>
 		</dependency>
 	</dependencies>
 </project>
