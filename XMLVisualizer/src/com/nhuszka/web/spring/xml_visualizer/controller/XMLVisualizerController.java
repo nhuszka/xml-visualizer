@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,6 +27,13 @@ public class XMLVisualizerController {
 
 	private static final String UPLOAD_PAGE = "uploadfile";
 	private static final String FILTER_PAGE = "filter";
+	
+	private final XMLParser xmlParser;
+	
+	@Autowired
+	public XMLVisualizerController(XMLParser xmlParser) {
+		this.xmlParser = xmlParser;
+	}
 
 	@RequestMapping(value = "/showUploadForm", method = RequestMethod.GET)
 	public ModelAndView showUploadForm() {
@@ -52,11 +60,11 @@ public class XMLVisualizerController {
 	
 	@RequestMapping(value = "/showGraph", method = RequestMethod.POST)
 	public String createGraph(HttpServletRequest request, @ModelAttribute("filterForm") FilterFormModel filterFormModel,
-			Model model) throws IllegalStateException, IOException {
+			Model model) {
 		Collection<String> ids = filterFormModel.getIds();
 		String beanPackageFilter = filterFormModel.getBeanPackageFilter();
 		
-		GraphInput<String> graphInput = new XMLParser().parseXmlsToGraphInput(ids, beanPackageFilter);
+		GraphInput<String> graphInput = xmlParser.parseXmlsToGraphInput(ids, beanPackageFilter);
 		String graphEncodedBase64 = new GraphCreator<String>().createGraphInBase64String(graphInput);
 		
 		model.addAttribute("graphBase64", graphEncodedBase64);

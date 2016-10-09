@@ -34,4 +34,14 @@ public class SpringBean {
     public Collection<String> getReferencedBeanIds() {
     	return referencedBeanIds;
     }
+    
+    @Override
+    public String toString() {
+    	final StringBuilder sb = new StringBuilder();
+    	sb.append("SpringBean[");
+    	sb.append(" id=").append(id);
+    	sb.append(" class=").append(clazz);
+    	sb.append(" referencedBeanIds=").append(referencedBeanIds);
+    	return sb.toString();
+    }
 }

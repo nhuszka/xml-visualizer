@@ -16,7 +16,10 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-class SpringBeanXMLParser {
+import org.springframework.stereotype.Component;
+
+@Component
+public class SpringBeanXMLParser {
 
 	public Collection<SpringBean> parseBeanFiles(Collection<File> files) {
 		Collection<SpringBean> beans = new ArrayList<>();

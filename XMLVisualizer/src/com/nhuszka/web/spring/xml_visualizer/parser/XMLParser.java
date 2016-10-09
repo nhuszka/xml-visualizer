@@ -7,16 +7,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.nhuszka.web.spring.xml_visualizer.graph.GraphInput;
 import com.nhuszka.web.spring.xml_visualizer.storage.DiskFileStorage;
 import com.nhuszka.web.spring.xml_visualizer.storage.StoredFileModel;
 
+@Component
 public class XMLParser {
+	
+	private final SpringBeanXMLParser springBeanXMLParser;
+	
+	@Autowired
+	public XMLParser(SpringBeanXMLParser xmlParser) {
+		this.springBeanXMLParser = xmlParser;
+	}
 
 	public GraphInput<String> parseXmlsToGraphInput(Collection<String> fileIds, String beanPackageFilter) {
 		Collection<File> files = getStoredFiles(fileIds);
-		Collection<SpringBean> beans = new SpringBeanXMLParser().parseBeanFiles(files);
+		Collection<SpringBean> beans = springBeanXMLParser.parseBeanFiles(files);
 
 		return convertSpringBeansToGraphInput(beans, beanPackageFilter);
 	}
