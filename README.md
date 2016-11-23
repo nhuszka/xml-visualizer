@@ -7,3 +7,4 @@ Repository for self-improvement.
 3. IO / NIO
 4. [JUNG graph framework](http://jung.sourceforge.net): [Tutorial](http://www.grotto-networking.com/JUNG/JUNG2-Tutorial.pdf)
 5. Spring AOP
+6. Logging: log4j
