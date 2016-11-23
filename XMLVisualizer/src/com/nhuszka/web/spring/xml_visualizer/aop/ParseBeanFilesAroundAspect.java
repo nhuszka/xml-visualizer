@@ -3,6 +3,7 @@ package com.nhuszka.web.spring.xml_visualizer.aop;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class ParseBeanFilesAroundAspect {
 	
+	private static final Logger LOGGER = Logger.getLogger(ParseBeanFilesAroundAspect.class);
+	
 	private static final String METHOD_NAME = 
 			"com.nhuszka.web.spring.xml_visualizer.parser.SpringBeanXMLParser.parseBeanFiles(..)";
 
@@ -19,21 +22,20 @@ public class ParseBeanFilesAroundAspect {
 	public Object logParseBeanFilesMethod(ProceedingJoinPoint proceedingJoinPoint) {
 		Object returnValue = null;
 		
-		System.out.println("---- AOP LOG START ---- ");
-		System.out.println("Calling: " + METHOD_NAME);
-		
+		LOGGER.warn("---- AOP LOG START ---- ");
+		LOGGER.warn("Calling: " + METHOD_NAME);
+
 		try {
 			logArgs(proceedingJoinPoint);
 			
 			returnValue = proceedingJoinPoint.proceed();
-			System.out.println("Return value: " + returnValue);
-		} catch (Throwable e) {
-			System.out.println("Error happened during call of " + METHOD_NAME);
-			e.printStackTrace();
+			LOGGER.warn("Return value: " + returnValue);
+		} catch (Throwable exception) {
+			LOGGER.error("Error happened during call of " + METHOD_NAME, exception);
 		}
 		
-		System.out.println("Call is done: " + METHOD_NAME);
-		System.out.println("---- AOP LOG END ---- ");
+		LOGGER.warn("Call is done: " + METHOD_NAME);
+		LOGGER.warn("---- AOP LOG END ---- ");
 		
 		return returnValue;
 	}
@@ -42,7 +44,7 @@ public class ParseBeanFilesAroundAspect {
 		Optional<Object[]> args = Optional.of(proceedingJoinPoint.getArgs());
 		if (args.isPresent()) {
 			for (Object arg : Arrays.asList(args.get())) {
-				System.out.println("arg: " + arg);
+				LOGGER.warn("arg: " + arg);
 			}
 		}
 	}

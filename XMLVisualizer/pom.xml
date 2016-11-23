@@ -26,6 +26,7 @@
 		<jung-algorithms.version>2.0.1</jung-algorithms.version>
 		
 		<aspectj.version>1.7.4</aspectj.version>
+		<log4j.version>1.2.17</log4j.version>
 	</properties>
 
 	<build>
@@ -150,6 +151,11 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjtools</artifactId>
 			<version>${aspectj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
 		</dependency>
 	</dependencies>
 </project>
